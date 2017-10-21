@@ -9,6 +9,7 @@
             var person;
             var issue;
             var loc; // can't use "location" as a variable name, it's a reserved JS variable
+            var reqType;
             
             var currentPage = 1;
             var endTime;
@@ -66,6 +67,7 @@
                       '\n\tPerson: ' + person +
                       '\n\tLocation: ' + loc +
                       '\n\tCategory: ' + issue +
+                      '\n\tRequest Type: ' + reqType +
                       '\n\tElapsed Time: ' + elapsedMin + ' min, ' + elapsedSec + ' sec' +
                       '\n\tTimestamp: ' + timestamp);
                 goToPage(4);
@@ -88,7 +90,7 @@
                 clearInterval(timerInterval);
             }
             
-            
+            /*
             function setPerson(s){
                 person = s;
                 document.getElementById('personMarker').innerHTML = '\t' + s;
@@ -100,6 +102,16 @@
                 document.getElementById('locationMarker').innerHTML = '\t' + s;
                 goToPage(currentPage + 1);
             }
+            */
+            
+            function setPersonAndLoc(){
+                person = document.querySelector('div#page1 #netid').value;
+                loc = document.querySelector('div#page1 #loc').selectedOptions[0].innerText;
+                
+                document.getElementById('personMarker').innerHTML = '\t' + person;
+                document.getElementById('locationMarker').innerHTML = '\t' + loc;
+                goToPage(3);
+            }
             
             function beginWalkthrough(){
                 startTimer();
@@ -108,7 +120,36 @@
             
             function setIssue(s){
                 issue = s;
-                submitT();
+                
+                switch(issue){
+                    case 'Software':
+                        showReqPrompt();
+                        break;
+                    case 'Hardware':
+                        showReqPrompt();
+                        break;
+                    case 'Smartphone':
+                        reqType = 'Service Request';
+                        submitT();
+                        break;
+                    case 'Office Phone':
+                        reqType = 'Incident';
+                        submitT();
+                        break;
+                    case 'Printer':
+                        showReqPrompt();
+                        break;
+                    case 'Other':
+                        var otherCategory = prompt("Please clarify:", "");
+                        issue += ' - ' + otherCategory;
+                        showReqPrompt();
+                        break;
+                    default:
+                        console.log('WARNING: Unexpected input: ' + issue);
+                        break;
+                }
+                
+                
             }
             
             function endWalkthrough(){
@@ -116,11 +157,30 @@
                 goToPage(5);
             }
             
+            function showReqPrompt(){
+                document.getElementById('id_confirmdiv').style.display="block";
+            }
+            
+            function reqTypeResponse(s){
+                reqType = s;
+                document.getElementById('id_confirmdiv').style.display="none";
+                
+                submitT();
+            }
+            
         </script>
         
     </head>
     
     <body bgcolor = "#FFFFFF">
+        
+            <div id="id_confirmdiv">
+                <h4>Request Type?</h4>
+                <br><br>
+                <button id="id_truebtn" onclick="reqTypeResponse('Service Request')">Service Request</button>
+                <button id="id_falsebtn" onclick="reqTypeResponse('Incident')">Incident</button>
+            </div>
+
             <form class="main" id="form" novalidate="novalidate" style="max-width: 800px; margin: 10px auto;" METHOD=POST action="" onsubmit="return false" target="_self" _lpchecked="1">
                 <div id="forminner">
                     <div class="row">
@@ -141,6 +201,20 @@
                     </div>
                     <div>
                         <div id="page1" class="optionWrapper" >
+                            <h4>NetID: </h4><input id="netid" type="text" name="fname"><br><br>
+                            <br><br>
+                            <h4>Location: </h4><select id="loc">
+                                <option value="Crown">Crown</option>
+                                <option value="1800Sherman">1800 Sherman</option>
+                                <option value="Provost">Provost</option>
+                                <option value="Athletics">Athletics</option>
+                                <option value="TGS">TGS</option>
+                                <option value="Enrollment">Enrollment</option>
+                            </select>
+                            <br><br><br><br>
+                            <button class="optionButton" onclick="setPersonAndLoc();">Next</button>
+                            
+                            <!--
                             <button class="optionButton" onclick="setPerson('Andy');">Andy</button>
                             <button class="optionButton" onclick="setPerson('Mohammad');">Mohammad</button>
                             <button class="optionButton" onclick="setPerson('Nick');">Nick</button>
@@ -149,6 +223,7 @@
                             <button class="optionButton" onclick="setPerson('Corzail');">Corzail</button>
                             <button class="optionButton" onclick="setPerson('Stephen');">Stephen</button>
                             <button class="optionButton" onclick="setPerson('Brian');">Brian</button> 
+                            -->
                         </div>
                         
                         <div id="page2" class="optionWrapper" hidden>
@@ -167,9 +242,9 @@
                         </div>
                         
                         <div id="page4" class="optionWrapper" hidden>
-                            <button class="optionButton" onclick="setIssue('Computer Software');">Computer: Software</button>
-                            <button class="optionButton" onclick="setIssue('Computer Hardware');">Computer: Hardware</button>
-                            <button class="optionButton" onclick="setIssue('Cell Phone');">Cell Phone</button>
+                            <button class="optionButton" onclick="setIssue('Software');">Software</button>
+                            <button class="optionButton" onclick="setIssue('Hardware');">Hardware</button>
+                            <button class="optionButton" onclick="setIssue('Smartphone');">Smartphone</button>
                             <button class="optionButton" onclick="setIssue('Office Phone');">Office Phone</button>
                             <button class="optionButton" onclick="setIssue('Printer');">Printer</button>
                             <button class="optionButton" onclick="setIssue('Other');">Other</button>

@@ -83,7 +83,7 @@ button {
 }
 
 .optionButton:focus {
-    background: gray;
+    /* background: gray; */
 }
 
 
@@ -91,6 +91,71 @@ button {
     width:  100%;
 }
 
+
+/******************************************
+*******************************************/
+
+#id_confirmdiv
+{
+    display: none;
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    position: fixed;
+    width: 70%;
+    min-height: 200px;
+    height: 30%;
+    left: 50%;
+    top: 20%;
+    margin-left: -35%;
+    padding: 6px 8px 8px;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid black;
+}
+#id_confirmdiv button {
+    background-color: #ccc;
+    display: inline-block;
+    float: left;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    padding: 2px;
+    text-align: center;
+    /* width: 80px; */
+    height: 50%;
+    min-height: 80px;
+    cursor: pointer;
+    font:normal 1.5em Roboto,Helvetica,Arial,sans-serif;
+}
+#id_confirmdiv button:first-of-type {
+    float: right;
+}
+#id_confirmdiv .button:hover {
+    background-color: #ddd;
+}
+#confirmBox .message {
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+
+input#netid {
+    width:50%;
+    height:70px;
+    font: normal 30px sans-serif;
+}
+
+select#loc {
+    width:50%;
+    height:70px;
+    font: normal 30px sans-serif;
+    background: white;
+}
+
+
+
+/******************************************
+*******************************************/
 
 
 
